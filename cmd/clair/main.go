@@ -57,6 +57,9 @@ import (
 	// _ "github.com/coreos/clair/ext/vulnsrc/ubuntu"
 
   _ "github.com/nearform/clair-nodejs/ext/vulnsrc/npm"
+  _ "github.com/nearform/clair-nodejs/ext/featurefmt/npm"
+  _ "github.com/nearform/clair-nodejs/ext/featurens/npm"
+  _ "github.com/nearform/clair-nodejs/ext/versionfmt/npm"
 )
 
 func waitForSignals(signals ...os.Signal) {

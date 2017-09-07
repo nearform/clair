@@ -25,6 +25,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os/exec"
+	"regexp"
 	"strings"
 )
 
@@ -52,6 +53,7 @@ type FilesMap map[string][]byte
 // ExtractFiles decompresses and extracts only the specified files from an
 // io.Reader representing an archive.
 func ExtractFiles(r io.Reader, filenames []string) (FilesMap, error) {
+
 	data := make(map[string][]byte)
 
 	// Decompress the archive.
@@ -77,8 +79,14 @@ func ExtractFiles(r io.Reader, filenames []string) (FilesMap, error) {
 
 		// Determine if we should extract the element
 		toBeExtracted := false
+
 		for _, s := range filenames {
-			if strings.HasPrefix(filename, s) {
+			re, err := regexp.Compile("^" + s + "$")
+			if err != nil {
+				return data, ErrCouldNotExtract
+			}
+
+			if re.MatchString(filename) {
 				toBeExtracted = true
 				break
 			}
